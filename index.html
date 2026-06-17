@@ -310,9 +310,17 @@
    ---------------------------------------------------------- */
 
 // ---- iTunes Search + RSS ----
-// Flere CORS-proxyer prøves i rekkefølge — alle gratis offentlige tjenester
-// som har en tendens til å være ustabile. Den første som svarer brukes.
+// Din egen CORS-proxy (Cloudflare Worker) — varig og rask. Lim inn worker-URL-en
+// du fikk av `wrangler deploy` her (uten skråstrek på slutten). Se README.md.
+// La den stå tom for å hoppe over den og bare bruke de offentlige fallbackene.
+const MY_PROXY = "https://dreamcast-proxy.dreampodcast.workers.dev";
+
+// Proxyer prøves i rekkefølge — din egen først, så gratis offentlige tjenester
+// som fallback (de er ustabile). Den første som svarer brukes.
 const CORS_PROXIES = [
+  ...(MY_PROXY && !MY_PROXY.includes("DITT-SUBDOMENE")
+    ? [(u) => `${MY_PROXY}/?url=${encodeURIComponent(u)}`]
+    : []),
   (u) => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
   (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,

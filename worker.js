@@ -13,6 +13,7 @@
 // en åpen proxy som hvem som helst kan misbruke. Legg til egne origins her.
 const ALLOWED_ORIGINS = [
   "https://espenbjork.github.io",
+  "https://espenbjork.no",
   "http://localhost",
   "http://127.0.0.1",
   "null", // file:// (når du åpner dreamcast.html rett fra disk)
